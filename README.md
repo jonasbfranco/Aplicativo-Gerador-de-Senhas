@@ -48,7 +48,7 @@ flet main.py --android
 ```
 
 *  * *
-### [Link para a playlist no Youtube](https://www.youtube.com/playlist?list=PLjEMBqp7RZOx21PaAyhe8zuHTe4kJLM9F)
+### [Link para a playlist no Youtube](https://www.youtube.com/watch?v=aSlbYzvsOGI&list=PLjEMBqp7RZOwqyFHGj9f5QSz9xx17HDz6&ab_channel=PyFlet)
 
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/f2clA7745WA/maxresdefault.jpg)](https://www.youtube.com/live/f2clA7745WA)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/aSlbYzvsOGI/maxresdefault.jpg)](https://www.youtube.com/live/aSlbYzvsOGI)
