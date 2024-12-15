@@ -1,4 +1,6 @@
 import flet as ft
+import string
+import random
 
 def main(page: ft.Page):
    page.window.width = 400
@@ -13,15 +15,80 @@ def main(page: ft.Page):
    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
    
    
+   options = {}
+   generate_button = ft.Ref[ft.Container]()
+   txt_password = ft.Ref[ft.Text]()
+   characteres_count = ft.Ref[ft.Slider]()
+   btn_clipboard = ft.Ref[ft.IconButton]()
 
-   def copy_to_clipboard(e):
-        pass
+
+   
    
    def toggle_option(e):
-       pass
+    nonlocal options
+    options.update({e.control.data: e.control.value})
+    # print (options)
+
+    if any(options.values()):
+       generate_button.current.disabled = False
+       generate_button.current.opacity = 1
+       #btn_clipboard.current.disabled = False
+       #btn_clipboard.current.opacity = 1
+
+    else:
+       generate_button.current.disabled = True
+       generate_button.current.opacity = 0.3
+       #btn_clipboard.current.disabled = True
+       #btn_clipboard.current.opacity = 0
+
+    generate_button.current.update()
+    #btn_clipboard.current.update()
+
+
    
    def generate_password(e):
-       pass
+    pwd = ""
+    
+    if options.get("uppercase"):
+      pwd += string.ascii_uppercase 
+
+    if options.get("lowercase"):
+      pwd += string.ascii_lowercase 
+
+    if options.get("digits"):
+      pwd += string.digits 
+
+    if options.get("punctuation"):
+      pwd += string.punctuation 
+    
+    
+    count = int(characteres_count.current.value)
+    password = random.choices(pwd, k=count)
+
+    txt_password.current.value = ''.join(password)
+    txt_password.current.update()
+
+    btn_clipboard.current.selected = False
+    btn_clipboard.current.update()
+
+
+    btn_clipboard.current.disabled = False
+    btn_clipboard.current.opacity = 1
+    btn_clipboard.current.update()
+
+
+
+
+   def copy_to_clipboard(e):
+    pwd = txt_password.current.value
+
+    if pwd:
+      page.set_clipboard(pwd)
+      btn_clipboard.current.selected = True
+      btn_clipboard.current.update()
+
+
+
 
    
 
@@ -50,17 +117,21 @@ def main(page: ft.Page):
                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                   controls=[
                      ft.Text(
-                         value="sdfasdfsadfdasf",
+                        ref=txt_password,
+                        value="",
                         selectable=True,
                         size=20,
                         height=30,
                      ),
                      ft.IconButton(
+                        ref=btn_clipboard,
                         icon=ft.icons.COPY,
                         icon_color=ft.colors.WHITE30,
                         selected_icon=ft.icons.CHECK,
                         selected_icon_color=ft.colors.INDIGO,
                         selected=False,
+                        disabled=True,
+                        opacity=0,
                         on_click=copy_to_clipboard,
                      ),
                   ],
@@ -77,6 +148,7 @@ def main(page: ft.Page):
                 bgcolor=ft.colors.with_opacity(0.3, ft.colors.BLACK),
                 border_radius=ft.border_radius.all(5),
                 content=ft.Slider(
+                    ref=characteres_count,
                     value=10,
                     min=4,
                     max=20,
@@ -148,6 +220,7 @@ def main(page: ft.Page):
             ),
 
             ft.Container(
+                ref=generate_button,
                 gradient=ft.LinearGradient(
                     colors=[ft.colors.INDIGO, ft.colors.BLUE],
                 ),
